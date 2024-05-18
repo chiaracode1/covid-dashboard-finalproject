@@ -5,6 +5,7 @@ import useCovidData from "./components/useCovidData";
 import useUSData from "./components/useUSData";
 import { Line } from "react-chartjs-2";
 import Footer from "./components/Footer";
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -47,7 +48,7 @@ const App = () => {
                 ) : (
                   <>
 
-                  {/* DATA BOX */}
+                  {/* DATA CONTAINER */}
 
                     <div className="grid grid-cols-3 gap-4 w-full">
                       <div className="bg-green-500 flex flex-col items-center text-white sm:text-lg p-4">
@@ -69,8 +70,8 @@ const App = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="bg-white w-full h-2/3 flex items-center text-white sm:text-lg p-4">
-                      <div className="w-full h-full">
+                        <div className="w-full overflow-x-auto">
+                        <div className="min-w-[700px]">
                         {chartData && chartData.datasets ? (
                           <Line data={chartData} />
                         ) : (
@@ -84,7 +85,7 @@ const App = () => {
             }
           />
 
-          {/* BOX DATA USA */}
+          {/* CONTAINER DATA USA */}
 
           <Route
 
