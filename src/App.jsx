@@ -5,6 +5,27 @@ import useCovidData from "./components/useCovidData";
 import useUSData from "./components/useUSData";
 import { Line } from "react-chartjs-2";
 import Footer from "./components/Footer";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import "./App.css";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const App = () => {
   const { chartData, stats, error: covidError } = useCovidData();
@@ -25,27 +46,30 @@ const App = () => {
                   </div>
                 ) : (
                   <>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
-                      <div className="bg-green-500 flex flex-col items-center text-white text-2xl p-4">
+
+                  {/* DATA BOX */}
+
+                    <div className="grid grid-cols-3 gap-4 w-full">
+                      <div className="bg-green-500 flex flex-col items-center text-white sm:text-lg p-4">
                         <div className="mb-2">Confirmed</div>
-                        <div className="bg-white text-green-500 p-2 rounded">
+                        <div className="bg-white text-green-500 p-1 rounded ">
                           {stats.confirmed}
                         </div>
                       </div>
-                      <div className="bg-red-500 flex flex-col items-center text-white text-2xl p-4">
+                      <div className="bg-red-500 flex flex-col items-center text-white sm:text-lg p-4">
                         <div className="mb-2">Deaths</div>
-                        <div className="bg-white text-red-500 p-2 rounded">
+                        <div className="bg-white text-red-500 p-1 rounded">
                           {stats.deaths}
                         </div>
                       </div>
-                      <div className="bg-blue-500 flex flex-col items-center text-white text-2xl p-4">
+                      <div className="bg-blue-500 flex flex-col items-center text-white sm:text-lg p-4">
                         <div className="mb-2">Recovered</div>
-                        <div className="bg-white text-blue-500 p-2 rounded">
+                        <div className="bg-white text-blue-500 p-1 rounded">
                           {stats.recovered}
                         </div>
                       </div>
                     </div>
-                    <div className="bg-white w-full h-auto sm:h-2/3 flex items-center text-white text-2xl p-4">
+                    <div className="bg-white w-full h-2/3 flex items-center text-white sm:text-lg p-4">
                       <div className="w-full h-full">
                         {chartData && chartData.datasets ? (
                           <Line data={chartData} />
@@ -59,7 +83,11 @@ const App = () => {
               </div>
             }
           />
+
+          {/* BOX DATA USA */}
+
           <Route
+
             path="/us"
             element={
               usError ? (
@@ -69,14 +97,14 @@ const App = () => {
                   <h1 className="text-2xl font-bold mb-4">
                     COVID-19 Data for United States
                   </h1>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <div className="grid sm:grid-cols-3 gap-4">
                     {Array.isArray(usData) && usData.length > 0 ? (
                       usData.map((stateData) => (
                         <div
                           key={stateData.region.province}
-                          className="bg-gray-200 p-4 rounded-lg"
+                          className="bg-gray-200 p-1 rounded-lg"
                         >
-                          <h2 className="text-xl font-semibold">
+                          <h2 className="sm:text-1xl font-semibold align-center">
                             {stateData.region.province}
                           </h2>
                           <p>Confirmed: {stateData.confirmed}</p>
