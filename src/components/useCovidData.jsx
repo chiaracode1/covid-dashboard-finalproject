@@ -13,17 +13,30 @@ const useCovidData = () => {
 
                 //  GLOBAL DATA
 
-                const globalData = data.map((report) => ({
-                    country: report.region.name,
-                    confirmed: report.confirmed,
-                    deaths: report.deaths,
-                    recovered: report.recovered,
-                    date: report.date
+                const aggregatedData = data.reduce((acc, report) => {
+                    const country = report.region.name;
+                    if (!acc[country]) {
+                        acc[country] = {
+                            confirmed: 0,
+                            deaths: 0,
+                            recovered: 0,
+                        };
+                    }
+                    acc[country].confirmed += report.confirmed;
+                    acc[country].deaths += report.deaths;
+                    acc[country].recovered += report.recovered;
+                    return acc;
+                }, {});
+
+                const countries = Object.keys(aggregatedData);
+                const countryData = countries.map(country => ({
+                    country,
+                    ...aggregatedData[country]
                 }));
 
-                const totalConfirmed = globalData.reduce((acc, countryData) => acc + countryData.confirmed, 0);
-                const totalDeaths = globalData.reduce((acc, countryData) => acc + countryData.deaths, 0);
-                const totalRecovered = globalData.reduce((acc, countryData) => acc + countryData.recovered, 0);
+                const totalConfirmed = countryData.reduce((acc, countryData) => acc + countryData.confirmed, 0);
+                const totalDeaths = countryData.reduce((acc, countryData) => acc + countryData.deaths, 0);
+                const totalRecovered = countryData.reduce((acc, countryData) => acc + countryData.recovered, 0);
 
                 setStats({
                     confirmed: totalConfirmed,
@@ -34,25 +47,25 @@ const useCovidData = () => {
                 // GRAPHIC CHART
 
                 setChartData({
-                    labels: globalData.map((countryData) => countryData.country),
+                    labels: countryData.map((country) => country.country),
                     datasets: [
                         {
                             label: "Confirmed",
-                            data: globalData.map((countryData) => countryData.confirmed),
+                            data: countryData.map((country) => country.confirmed),
                             backgroundColor: "rgba(75, 192, 192, 0.6)",
                             borderColor: "rgba(75, 192, 192, 1)",
                             borderWidth: 1,
                         },
                         {
                             label: "Deaths",
-                            data: globalData.map((countryData) => countryData.deaths),
+                            data: countryData.map((country) => country.deaths),
                             backgroundColor: "rgba(255, 99, 132, 0.6)",
                             borderColor: "rgba(255, 99, 132, 1)",
                             borderWidth: 1,
                         },
                         {
                             label: "Recovered",
-                            data: globalData.map((countryData) => countryData.recovered),
+                            data: countryData.map((country) => country.recovered),
                             backgroundColor: "rgba(54, 162, 235, 0.6)",
                             borderColor: "rgba(54, 162, 235, 1)",
                             borderWidth: 1,
