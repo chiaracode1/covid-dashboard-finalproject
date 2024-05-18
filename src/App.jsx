@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import useCovidData from "./components/useCovidData";
 import useUSData from "./components/useUSData";
 import { Line } from "react-chartjs-2";
+import Footer from "./components/Footer";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -115,6 +116,7 @@ const App = () => {
             }
           />
         </Routes>
+        <Footer />
       </div>
     </Router>
   );
