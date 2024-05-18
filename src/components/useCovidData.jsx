@@ -2,78 +2,72 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 const useCovidData = () => {
-  const [chartData, setChartData] = useState({});
-  const [stats, setStats] = useState({});
-  const [error, setError] = useState(null);
+    const [chartData, setChartData] = useState({});
+    const [stats, setStats] = useState({});
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("https://covid-api.com/api/reports");
-        const data = response.data.data;
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get("https://covid-api.com/api/reports");
+                const data = response.data.data;
 
-        // Total global cases
-        const totalConfirmed = data.reduce((acc, report) => acc + report.confirmed, 0);
-        const totalDeaths = data.reduce((acc, report) => acc + report.deaths, 0);
-        const totalRecovered = data.reduce((acc, report) => acc + report.recovered, 0);
+                //  GLOBAL DATA
 
-        setStats({
-          confirmed: totalConfirmed,
-          deaths: totalDeaths,
-          recovered: totalRecovered
-        });
+                const globalData = data.map((report) => ({
+                    country: report.region.name,
+                    confirmed: report.confirmed,
+                    deaths: report.deaths,
+                    recovered: report.recovered,
+                    date: report.date
+                }));
 
-        // GRAPHIC CHART
-        const countries = data.map(report => report.region.name);
-        const dates = [...new Set(data.map(report => report.date))];
+                const totalConfirmed = globalData.reduce((acc, countryData) => acc + countryData.confirmed, 0);
+                const totalDeaths = globalData.reduce((acc, countryData) => acc + countryData.deaths, 0);
+                const totalRecovered = globalData.reduce((acc, countryData) => acc + countryData.recovered, 0);
 
-        const datasets = [
-          {
-            label: "Confirmed",
-            data: dates.map(date => {
-              const reportForDate = data.filter(report => report.date === date);
-              return reportForDate.reduce((acc, report) => acc + report.confirmed, 0);
-            }),
-            backgroundColor: "rgba(75, 192, 192, 0.2)",
-            borderColor: "rgba(75, 192, 192, 1)",
-            borderWidth: 1
-          },
-          {
-            label: "Deaths",
-            data: dates.map(date => {
-              const reportForDate = data.filter(report => report.date === date);
-              return reportForDate.reduce((acc, report) => acc + report.deaths, 0);
-            }),
-            backgroundColor: "rgba(255, 99, 132, 0.2)",
-            borderColor: "rgba(255, 99, 132, 1)",
-            borderWidth: 1
-          },
-          {
-            label: "Recovered",
-            data: dates.map(date => {
-              const reportForDate = data.filter(report => report.date === date);
-              return reportForDate.reduce((acc, report) => acc + report.recovered, 0);
-            }),
-            backgroundColor: "rgba(54, 162, 235, 0.2)",
-            borderColor: "rgba(54, 162, 235, 1)",
-            borderWidth: 1
-          }
-        ];
+                setStats({
+                    confirmed: totalConfirmed,
+                    deaths: totalDeaths,
+                    recovered: totalRecovered
+                });
 
-        setChartData({
-          labels: dates,
-          datasets: datasets
-        });
-      } catch (error) {
-        setError(error);
-        console.error("Error fetching data: ", error);
-      }
-    };
+                // GRAPHIC CHART
 
-    fetchData();
-  }, []);
+                setChartData({
+                    labels: globalData.map((countryData) => countryData.country),
+                    datasets: [
+                        {
+                            label: "Confirmed",
+                            data: globalData.map((countryData) => countryData.confirmed),
+                            backgroundColor: "rgba(75, 192, 192, 0.6)",
+                            borderColor: "rgba(75, 192, 192, 1)",
+                            borderWidth: 1,
+                        },
+                        {
+                            label: "Deaths",
+                            data: globalData.map((countryData) => countryData.deaths),
+                            backgroundColor: "rgba(255, 99, 132, 0.6)",
+                            borderColor: "rgba(255, 99, 132, 1)",
+                            borderWidth: 1,
+                        },
+                        {
+                            label: "Recovered",
+                            data: globalData.map((countryData) => countryData.recovered),
+                            backgroundColor: "rgba(54, 162, 235, 0.6)",
+                            borderColor: "rgba(54, 162, 235, 1)",
+                            borderWidth: 1,
+                        },
+                    ],
+                });
+            } catch (error) {
+                console.error("Error fetching data: ", error);
+            }
+        };
 
-  return { chartData, stats, error };
+        fetchData();
+    }, []);
+
+    return { chartData, stats };
 };
 
 export default useCovidData;
