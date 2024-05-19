@@ -21,12 +21,13 @@ const Footer = () => {
           <h2 className="">LinkedIn</h2>
         </a>
       </div>
-      <div className="flex flex-col items-end">
-        <p className="text-xs sm:text-sm mr-0">
-          Powered by <a href="https://covid-api.com/" target="_blank" rel="noopener noreferrer" className="underline">COVID-19 API</a>
-        </p>
-        <p className="text-xs sm:text-sm">Chiara Ceriola ©</p>
-      </div>
+     <div className="flex flex-row items-end">
+  <p className="text-xs sm:text-sm ml-4 inline-block mr-2">
+    Powered by <a href="https://covid-api.com/" target="_blank" rel="noopener noreferrer" className="underline">COVID-19 API</a>
+  </p>
+  <p className="text-xs sm:text-sm inline-block">Chiara Ceriola ©</p>
+</div>
+
     </footer>
   );
 };
