@@ -70,7 +70,7 @@ const App = () => {
                         </div>
                       </div>
                     </div>
-                        <div className="w-full overflow-x-auto lg:min-h-screen"style={{ marginBottom: "4rem" }}>
+                        <div className="w-full overflow-x-auto lg:min-h-screen" style={{ marginBottom: "4rem" }}>
                         <div className="min-w-[700px] flex-grow">
                         {chartData && chartData.datasets ? (
                           <Line data={chartData} />
@@ -94,8 +94,8 @@ const App = () => {
               usError ? (
                 <p>Error loading US data: {usError.message}</p>
               ) : (
-                <div className="p-4">
-                  <h1 className="text-2xl font-bold mb-4">
+                <div className="p-8">
+                  <h1 className="text-2xl font-bold mb-6 mt-2">
                     COVID-19 Data for United States
                   </h1>
                   <div className="grid sm:grid-cols-3 gap-4">
@@ -103,7 +103,7 @@ const App = () => {
                       usData.map((stateData) => (
                         <div
                           key={stateData.region.province}
-                          className="bg-gray-200 p-1 rounded-lg"
+                          className="bg-gray-200 p-2 rounded-lg mb-8 -mt-4"
                         >
                           <h2 className="sm:text-1xl font-semibold align-center">
                             {stateData.region.province}
