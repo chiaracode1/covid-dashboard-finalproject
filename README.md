@@ -9,23 +9,22 @@ Currently, two official plugins are available:
 
 # The Project
 
-<a href="https://ibb.co/xG9H9TY"><img src="https://i.ibb.co/Mpw6w0f/website.png" alt="website" border="0"></a>
+<a href="https://ibb.co/VL8t09k"><img src="https://i.ibb.co/7SFXxC0/foto.png" alt="foto" border="0"></a>>
 
-This project is the final exam of the [start2Impact](https://www.start2impact.it/) React course.
-Create a meditation site with a programmable timer.
+This project is the final project of the [start2Impact](https://www.start2impact.it/)'s master.
 
 # Technical requirements
 
-- User programmable timer
-- The timer can be stopped and restarted
-- References to meditation (images, text etc…)
+- Dashboard reporting global COVID-19 data
+- Any graphic elements
+- Dedicated page with data for each Usa state
 - Simple and easy to use UI and UX
 - Organized and understandable app structure
 - Responsive design
 
 # Idea 
 
-I created a simple meditation site in shades of pink and black with a background and programmable timer along with music.
+I chose the project on the covid data report because it was very close to my degree thesis in which I described how covid data was managed in Italy and in the electronic health record.
 
 # Programming Languages
 
