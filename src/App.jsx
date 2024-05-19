@@ -70,7 +70,7 @@ const App = () => {
                         </div>
                       </div>
                     </div>
-                        <div className="w-full overflow-x-auto lg:min-h-screen">
+                        <div className="w-full overflow-x-auto lg:min-h-screen"style={{ marginBottom: "4rem" }}>
                         <div className="min-w-[700px] flex-grow">
                         {chartData && chartData.datasets ? (
                           <Line data={chartData} />
