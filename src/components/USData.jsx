@@ -1,18 +1,28 @@
+// eslint-disable-next-line no-unused-vars
 import React from "react";
-import useUSData from "./useUSData"; 
+import { useQuery } from "@tanstack/react-query"; 
+import { fetchUSData } from "./useUSData"; 
+import { Helmet } from "react-helmet";
 
 const USData = () => {
-    const { usData, error } = useUSData();
+    const { data: usData = [], error } = useQuery("usData", fetchUSData);
 
-    if (error) return <p>Error loading US data: {error.message}</p>;
-    if (!usData.length) return <p>Loading...</p>;
+    if (error) {
+        console.error("Error loading US data:", error);
+        return null;
+    }
+    if (!usData.length) {
+        return null;
+    }
 
     return (
-        <div className="p-4">
-            <h1 className="text-2xl font-bold mb-4">COVID-19 Data for United States</h1>
-            <div className="grid grid-cols-3 gap-4">
+        <div className="p-2">
+            <Helmet>
+            <h1>COVID-19 Data for United States</h1>
+            </Helmet>
+            <div className="grid grid-cols-3 gap-2">
                 {usData.map((stateData) => (
-                    <div key={stateData.region.province} className="bg-gray-200 p-4 rounded-lg">
+                    <div key={stateData.region.province} className="bg-gray-200 p-4 rounded">
                         <h2 className="text-xl font-semibold">{stateData.region.province}</h2>
                         <p>Confirmed: {stateData.confirmed}</p>
                         <p>Deaths: {stateData.deaths}</p>
@@ -27,4 +37,3 @@ const USData = () => {
 };
 
 export default USData;
-
